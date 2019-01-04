@@ -1,0 +1,11 @@
+{
+  "name": "http-chromify",
+  "version": "0.0.1",
+  "description": "http server for chrome app(from node http module source)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
