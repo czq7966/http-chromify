@@ -21,15 +21,15 @@
 
 'use strict';
 
-const { getOptionValue } = require('internal/options');
+// const { getOptionValue } = require('./internal/options');
 
-const { methods, HTTPParser } =
-  getOptionValue('--http-parser') === 'legacy' ?
-    internalBinding('http_parser') : internalBinding('http_parser_llhttp');
+const { methods, HTTPParser } = require('http-parser-js');
+  // getOptionValue('--http-parser') === 'legacy' ?
+  //   internalBinding('http_parser') : internalBinding('http_parser_llhttp');
 
-const { FreeList } = require('internal/freelist');
-const { ondrain } = require('internal/http');
-const incoming = require('_http_incoming');
+const { FreeList } = require('./internal/freelist');
+const { ondrain } = require('./internal/http');
+const incoming = require('./_http_incoming');
 const {
   IncomingMessage,
   readStart,

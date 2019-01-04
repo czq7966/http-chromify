@@ -4,19 +4,19 @@ const {
   ERR_INVALID_ARG_TYPE,
   ERR_NO_CRYPTO,
   ERR_UNKNOWN_SIGNAL
-} = require('internal/errors').codes;
-const { signals } = internalBinding('constants').os;
-const {
-  getHiddenValue,
-  setHiddenValue,
-  arrow_message_private_symbol: kArrowMessagePrivateSymbolIndex,
-  decorated_private_symbol: kDecoratedPrivateSymbolIndex
-} = internalBinding('util');
-const {
-  isNativeError
-} = internalBinding('types');
+} = require('./errors').codes;
+// const { signals } = internalBinding('constants').os;
+// const {
+//   getHiddenValue,
+//   setHiddenValue,
+//   arrow_message_private_symbol: kArrowMessagePrivateSymbolIndex,
+//   decorated_private_symbol: kDecoratedPrivateSymbolIndex
+// } = internalBinding('util');
+// const {
+//   isNativeError
+// } = internalBinding('types');
 
-const { errmap } = internalBinding('uv');
+// const { errmap } = internalBinding('uv');
 
 const noCrypto = !process.versions.openssl;
 

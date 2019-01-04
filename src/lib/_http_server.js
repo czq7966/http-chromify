@@ -22,7 +22,7 @@
 'use strict';
 
 const util = require('util');
-const net = require('net');
+const net = require('chrome-net');
 const assert = require('assert').ok;
 const {
   parsers,
@@ -35,21 +35,21 @@ const {
   kIncomingMessage,
   HTTPParser,
   _checkInvalidHeaderChar: checkInvalidHeaderChar
-} = require('_http_common');
-const { OutgoingMessage } = require('_http_outgoing');
-const { outHeadersKey, ondrain, nowDate } = require('internal/http');
-const {
-  defaultTriggerAsyncIdScope,
-  getOrSetAsyncId
-} = require('internal/async_hooks');
-const is_reused_symbol = require('internal/freelist').symbols.is_reused_symbol;
-const { IncomingMessage } = require('_http_incoming');
+} = require('./_http_common');
+const { OutgoingMessage } = require('./_http_outgoing');
+const { outHeadersKey, ondrain, nowDate } = require('./internal/http');
+// const {
+//   defaultTriggerAsyncIdScope,
+//   getOrSetAsyncId
+// } = require('./internal/async_hooks');
+const is_reused_symbol = require('./internal/freelist').symbols.is_reused_symbol;
+const { IncomingMessage } = require('./_http_incoming');
 const {
   ERR_HTTP_HEADERS_SENT,
   ERR_HTTP_INVALID_STATUS_CODE,
   ERR_INVALID_ARG_TYPE,
   ERR_INVALID_CHAR
-} = require('internal/errors').codes;
+} = require('./internal/errors').codes;
 const Buffer = require('buffer').Buffer;
 
 const kServerResponse = Symbol('ServerResponse');
@@ -321,9 +321,10 @@ Server.prototype.setTimeout = function setTimeout(msecs, callback) {
 
 
 function connectionListener(socket) {
-  defaultTriggerAsyncIdScope(
-    getOrSetAsyncId(socket), connectionListenerInternal, this, socket
-  );
+  // defaultTriggerAsyncIdScope(
+  //   getOrSetAsyncId(socket), connectionListenerInternal, this, socket
+  // );
+  connectionListenerInternal(this, socket)
 }
 
 function connectionListenerInternal(server, socket) {

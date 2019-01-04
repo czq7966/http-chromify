@@ -22,7 +22,7 @@
 'use strict';
 
 const util = require('util');
-const net = require('net');
+const net = require('chrome-net');
 const url = require('url');
 const assert = require('assert').ok;
 const {
@@ -32,22 +32,22 @@ const {
   httpSocketSetup,
   parsers,
   HTTPParser,
-} = require('_http_common');
-const { OutgoingMessage } = require('_http_outgoing');
-const Agent = require('_http_agent');
+} = require('./_http_common');
+const { OutgoingMessage } = require('./_http_outgoing');
+const Agent = require('./_http_agent');
 const { Buffer } = require('buffer');
-const { defaultTriggerAsyncIdScope } = require('internal/async_hooks');
-const { URL, urlToOptions, searchParamsSymbol } = require('internal/url');
-const { outHeadersKey, ondrain } = require('internal/http');
+// const { defaultTriggerAsyncIdScope } = require('./internal/async_hooks');
+const { URL, urlToOptions, searchParamsSymbol } = require('./internal/url');
+const { outHeadersKey, ondrain } = require('./internal/http');
 const {
   ERR_HTTP_HEADERS_SENT,
   ERR_INVALID_ARG_TYPE,
   ERR_INVALID_HTTP_TOKEN,
   ERR_INVALID_PROTOCOL,
   ERR_UNESCAPED_CHARACTERS
-} = require('internal/errors').codes;
-const { validateTimerDuration } = require('internal/timers');
-const is_reused_symbol = require('internal/freelist').symbols.is_reused_symbol;
+} = require('./internal/errors').codes;
+// const { validateTimerDuration } = require('./internal/timers');
+const is_reused_symbol = require('./internal/freelist').symbols.is_reused_symbol;
 
 const INVALID_PATH_REGEX = /[^\u0021-\u00ff]/;
 
@@ -599,7 +599,7 @@ function responseKeepAlive(res, req) {
     const asyncId = socket._handle ? socket._handle.getAsyncId() : undefined;
     // Mark this socket as available, AFTER user-added end
     // handlers have a chance to run.
-    defaultTriggerAsyncIdScope(asyncId, process.nextTick, emitFreeNT, socket);
+    // defaultTriggerAsyncIdScope(asyncId, process.nextTick, emitFreeNT, socket);
   }
 }
 

@@ -21,11 +21,12 @@
 
 'use strict';
 
-const net = require('net');
+const net = require('chrome-net');
 const util = require('util');
 const EventEmitter = require('events');
 const debug = util.debuglog('http');
-const { async_id_symbol } = require('internal/async_hooks').symbols;
+// const { async_id_symbol } = require('internal/async_hooks').symbols;
+const async_id_symbol = Symbol('asyncId');
 
 // New Agent code.
 

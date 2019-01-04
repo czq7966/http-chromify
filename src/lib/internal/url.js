@@ -5,9 +5,9 @@ const {
   encodeStr,
   hexTable,
   isHexTable
-} = require('internal/querystring');
+} = require('./querystring');
 
-const { getConstructorOf, removeColors } = require('internal/util');
+const { getConstructorOf, removeColors } = require('./util');
 const {
   ERR_ARG_NOT_ITERABLE,
   ERR_INVALID_ARG_TYPE,
@@ -19,7 +19,7 @@ const {
   ERR_INVALID_URL,
   ERR_INVALID_URL_SCHEME,
   ERR_MISSING_ARGS
-} = require('internal/errors').codes;
+} = require('./errors').codes;
 const {
   CHAR_AMPERSAND,
   CHAR_BACKWARD_SLASH,
@@ -29,7 +29,7 @@ const {
   CHAR_LOWERCASE_Z,
   CHAR_PERCENT,
   CHAR_PLUS
-} = require('internal/constants');
+} = require('./constants');
 const path = require('path');
 
 // Lazy loaded for startup performance.
@@ -38,30 +38,30 @@ let querystring;
 const { platform } = process;
 const isWindows = platform === 'win32';
 
-const {
-  domainToASCII: _domainToASCII,
-  domainToUnicode: _domainToUnicode,
-  encodeAuth,
-  toUSVString: _toUSVString,
-  parse,
-  setURLConstructor,
-  URL_FLAGS_CANNOT_BE_BASE,
-  URL_FLAGS_HAS_FRAGMENT,
-  URL_FLAGS_HAS_HOST,
-  URL_FLAGS_HAS_PASSWORD,
-  URL_FLAGS_HAS_PATH,
-  URL_FLAGS_HAS_QUERY,
-  URL_FLAGS_HAS_USERNAME,
-  URL_FLAGS_IS_DEFAULT_SCHEME_PORT,
-  URL_FLAGS_SPECIAL,
-  kFragment,
-  kHost,
-  kHostname,
-  kPathStart,
-  kPort,
-  kQuery,
-  kSchemeStart
-} = internalBinding('url');
+// const {
+//   domainToASCII: _domainToASCII,
+//   domainToUnicode: _domainToUnicode,
+//   encodeAuth,
+//   toUSVString: _toUSVString,
+//   parse,
+//   setURLConstructor,
+//   URL_FLAGS_CANNOT_BE_BASE,
+//   URL_FLAGS_HAS_FRAGMENT,
+//   URL_FLAGS_HAS_HOST,
+//   URL_FLAGS_HAS_PASSWORD,
+//   URL_FLAGS_HAS_PATH,
+//   URL_FLAGS_HAS_QUERY,
+//   URL_FLAGS_HAS_USERNAME,
+//   URL_FLAGS_IS_DEFAULT_SCHEME_PORT,
+//   URL_FLAGS_SPECIAL,
+//   kFragment,
+//   kHost,
+//   kHostname,
+//   kPathStart,
+//   kPort,
+//   kQuery,
+//   kSchemeStart
+// } = internalBinding('url');
 
 const context = Symbol('context');
 const cannotBeBase = Symbol('cannot-be-base');
@@ -1406,7 +1406,7 @@ function constructUrl(flags, protocol, username, password,
   initSearchParams(params, query);
   return url;
 }
-setURLConstructor(constructUrl);
+// setURLConstructor(constructUrl);
 
 module.exports = {
   toUSVString,

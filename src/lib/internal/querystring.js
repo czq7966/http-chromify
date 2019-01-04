@@ -1,6 +1,6 @@
 'use strict';
 
-const { ERR_INVALID_URI } = require('internal/errors').codes;
+const { ERR_INVALID_URI } = require('./errors').codes;
 
 const hexTable = new Array(256);
 for (var i = 0; i < 256; ++i)

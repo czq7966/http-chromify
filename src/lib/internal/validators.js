@@ -4,7 +4,7 @@ const {
   ERR_INVALID_ARG_TYPE,
   ERR_INVALID_ARG_VALUE,
   ERR_OUT_OF_RANGE
-} = require('internal/errors').codes;
+} = require('./errors').codes;
 
 function isInt32(value) {
   return value === (value | 0);

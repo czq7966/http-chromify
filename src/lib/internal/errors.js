@@ -15,12 +15,13 @@ const kInfo = Symbol('info');
 const messages = new Map();
 const codes = {};
 
-const {
-  errmap,
-  UV_EAI_NODATA,
-  UV_EAI_NONAME
-} = internalBinding('uv');
-const { kMaxLength } = internalBinding('buffer');
+// const {
+//   errmap,
+//   UV_EAI_NODATA,
+//   UV_EAI_NONAME
+// } = internalBinding('uv');
+// const { kMaxLength } = internalBinding('buffer');
+const kMaxLength = 0x7fffffff;
 const { defineProperty } = Object;
 
 // Lazily loaded
@@ -30,7 +31,7 @@ let assert;
 let internalUtil = null;
 function lazyInternalUtil() {
   if (!internalUtil) {
-    internalUtil = require('internal/util');
+    internalUtil = require('./util');
   }
   return internalUtil;
 }

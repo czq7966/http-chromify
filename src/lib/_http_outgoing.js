@@ -24,16 +24,16 @@
 const assert = require('assert').ok;
 const Stream = require('stream');
 const util = require('util');
-const internalUtil = require('internal/util');
-const { outHeadersKey, utcDate } = require('internal/http');
+// const internalUtil = require('./internal/util');
+const { outHeadersKey, utcDate } = require('./internal/http');
 const { Buffer } = require('buffer');
-const common = require('_http_common');
+const common = require('./_http_common');
 const checkIsHttpToken = common._checkIsHttpToken;
 const checkInvalidHeaderChar = common._checkInvalidHeaderChar;
-const {
-  defaultTriggerAsyncIdScope,
-  symbols: { async_id_symbol }
-} = require('internal/async_hooks');
+// const {
+//   defaultTriggerAsyncIdScope,
+//   symbols: { async_id_symbol }
+// } = require('./internal/async_hooks');
 const {
   ERR_HTTP_HEADERS_SENT,
   ERR_HTTP_INVALID_HEADER_VALUE,
@@ -44,8 +44,8 @@ const {
   ERR_METHOD_NOT_IMPLEMENTED,
   ERR_STREAM_CANNOT_PIPE,
   ERR_STREAM_WRITE_AFTER_END
-} = require('internal/errors').codes;
-const { validateString } = require('internal/validators');
+} = require('./internal/errors').codes;
+const { validateString } = require('./internal/validators');
 
 const { CRLF, debug } = common;
 
@@ -257,17 +257,18 @@ function _writeRaw(data, encoding, callback) {
     if (this.output.length) {
       this._flushOutput(conn);
     } else if (!data.length) {
-      if (typeof callback === 'function') {
-        // If the socket was set directly it won't be correctly initialized
-        // with an async_id_symbol.
-        // TODO(AndreasMadsen): @trevnorris suggested some more correct
-        // solutions in:
-        // https://github.com/nodejs/node/pull/14389/files#r128522202
-        defaultTriggerAsyncIdScope(conn[async_id_symbol],
-                                   process.nextTick,
-                                   callback);
-      }
-      return true;
+      // if (typeof callback === 'function') {
+      //   // If the socket was set directly it won't be correctly initialized
+      //   // with an async_id_symbol.
+      //   // TODO(AndreasMadsen): @trevnorris suggested some more correct
+      //   // solutions in:
+      //   // https://github.com/nodejs/node/pull/14389/files#r128522202
+      //   defaultTriggerAsyncIdScope(conn[async_id_symbol],
+      //                              process.nextTick,
+      //                              callback);
+      // }
+      // return true;
+      return conn.write(data, encoding, callback);      
     }
     // Directly write to socket.
     return conn.write(data, encoding, callback);
@@ -582,14 +583,14 @@ OutgoingMessage.prototype.write = function write(chunk, encoding, callback) {
 
 function write_(msg, chunk, encoding, callback, fromEnd) {
   if (msg.finished) {
-    const err = new ERR_STREAM_WRITE_AFTER_END();
-    const triggerAsyncId = msg.socket ? msg.socket[async_id_symbol] : undefined;
-    defaultTriggerAsyncIdScope(triggerAsyncId,
-                               process.nextTick,
-                               writeAfterEndNT,
-                               msg,
-                               err,
-                               callback);
+    // const err = new ERR_STREAM_WRITE_AFTER_END();
+    // const triggerAsyncId = msg.socket ? msg.socket[async_id_symbol] : undefined;
+    // defaultTriggerAsyncIdScope(triggerAsyncId,
+    //                            process.nextTick,
+    //                            writeAfterEndNT,
+    //                            msg,
+    //                            err,
+    //                            callback);
 
     return true;
   }
@@ -824,10 +825,13 @@ OutgoingMessage.prototype.flushHeaders = function flushHeaders() {
   // Force-flush the headers.
   this._send('');
 };
-
-OutgoingMessage.prototype.flush = internalUtil.deprecate(function() {
+OutgoingMessage.prototype.flush = function() {
   this.flushHeaders();
-}, 'OutgoingMessage.flush is deprecated. Use flushHeaders instead.', 'DEP0001');
+};
+
+// OutgoingMessage.prototype.flush = internalUtil.deprecate(function() {
+//   this.flushHeaders();
+// }, 'OutgoingMessage.flush is deprecated. Use flushHeaders instead.', 'DEP0001');
 
 OutgoingMessage.prototype.pipe = function pipe() {
   // OutgoingMessage should be write-only. Piping from it is disabled.

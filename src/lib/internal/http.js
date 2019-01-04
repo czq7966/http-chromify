@@ -1,6 +1,6 @@
 'use strict';
 
-const { setUnrefTimeout } = require('internal/timers');
+// const { setUnrefTimeout } = require('./timers');
 
 var nowCache;
 var utcCache;
@@ -19,7 +19,7 @@ function cache() {
   const d = new Date();
   nowCache = d.valueOf();
   utcCache = d.toUTCString();
-  setUnrefTimeout(resetCache, 1000 - d.getMilliseconds());
+  // setUnrefTimeout(resetCache, 1000 - d.getMilliseconds());
 }
 
 function resetCache() {
